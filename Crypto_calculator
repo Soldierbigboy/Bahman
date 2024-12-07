@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Portfolio Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ffe9;
+            border: 1px solid #b2d8b2;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crypto Portfolio Calculator</h1>
+        <div class="form-group">
+            <label for="quantity">Total Quantity of Coins</label>
+            <input type="number" id="quantity" placeholder="Enter total quantity of coins">
+        </div>
+        <div class="form-group">
+            <label for="totalSpent">Total Amount Spent (USDT)</label>
+            <input type="number" id="totalSpent" placeholder="Enter total amount spent in USDT">
+        </div>
+        <div class="form-group">
+            <label for="currentPrice">Current Price per Coin (USDT)</label>
+            <input type="number" id="currentPrice" placeholder="Enter current price per coin in USDT">
+        </div>
+        <div class="form-group">
+            <label for="desiredProfit">Desired Profit (%)</label>
+            <input type="number" id="desiredProfit" placeholder="Enter desired profit percentage">
+        </div>
+        <button onclick="calculateResults()">Calculate</button>
+        <div id="results" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function calculateResults() {
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const totalSpent = parseFloat(document.getElementById('totalSpent').value);
+            const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+            const desiredProfit = parseFloat(document.getElementById('desiredProfit').value);
+
+            if (isNaN(quantity) || isNaN(totalSpent) || isNaN(currentPrice) || isNaN(desiredProfit)) {
+                alert('Please fill out all fields with valid numbers.');
+                return;
+            }
+
+            // Calculate average price
+            const averagePrice = totalSpent / quantity;
+
+            // Calculate current value and profit/loss
+            const currentValue = quantity * currentPrice;
+            const profitOrLoss = currentValue - totalSpent;
+
+            // Calculate target sell price
+            const targetSellPrice = averagePrice * (1 + desiredProfit / 100);
+
+            // Display results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <p><strong>Average Price:</strong> ${averagePrice.toFixed(2)} USDT</p>
+                <p><strong>Current Value:</strong> ${currentValue.toFixed(2)} USDT</p>
+                <p><strong>Profit/Loss:</strong> ${profitOrLoss.toFixed(2)} USDT</p>
+                <p><strong>Target Sell Price for Desired Profit:</strong> ${targetSellPrice.toFixed(2)} USDT</p>
+            `;
+        }
+    </script>
+</body>
+</html>
